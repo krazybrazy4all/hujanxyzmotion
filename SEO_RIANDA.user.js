@@ -1,87 +1,14 @@
 // ==UserScript==
 // @name         SEO_RIANDA
 // @namespace    https://tampermonkey.net/
-// @version      8.0
+// @version      8.1
 // @description  Professional Withdraw Monitoring System
 // @match        https://motionv2.com/*
 // @grant        none
 // ==/UserScript==
 
 
-(function(){
 
-'use strict';
-
-
-
-/* =====================================
-   CONFIG
-===================================== */
-
-
-const CONFIG = {
-
-
-    MEDIUM:500000,
-
-    HIGH:3000000,
-
-
-    BANK:{
-
-
-    "BCA":{
-        color:"#0D47A1",
-        bg:"#E3F2FD"
-    },
-
-
-    "DANA":{
-        color:"#01579B",
-        bg:"#E1F5FE"
-    },
-
-
-    "SEABANK":{
-        color:"#E65100",
-        bg:"#FFF3E0"
-    },
-
-
-    "SEA BANK":{
-        color:"#E65100",
-        bg:"#FFF3E0"
-    },
-
-
-    "BNI":{
-        color:"#EF6C00",
-        bg:"#FFF3E0"
-    },
-
-
-    "BRI":{
-        color:"#1B5E20",
-        bg:"#E8F5E9"
-    },
-
-
-    "MANDIRI":{
-        color:"#0D47A1",
-        bg:"#E3F2FD"
-    },
-
-
-    "OVO":{
-        color:"#4A148C",
-        bg:"#F3E5F5"
-    },
-
-
-    "GOPAY":{
-        color:"#1B5E20",
-        bg:"#E8F5E9"
-    },
 
 
     "GO PAY":{
