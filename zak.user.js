@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         SEO_RIANDA
+// @name         HUJANMOTIONV2
 // @namespace    https://tampermonkey.net/
 // @version      1.0
 // @description  Professional Withdraw Monitoring System
