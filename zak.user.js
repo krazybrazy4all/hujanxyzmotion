@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         HUJANMOTIONV2
 // @namespace    https://tampermonkey.net/
-// @version      1.0
-// @description  Professional Withdraw Monitoring System
+// @version      2.0
+// @description  TETAP TENANG.
 // @match        https://motionv2.com/*
 // @grant        none
 // ==/UserScript==
@@ -24,85 +24,87 @@ const CONFIG = {
 
     MEDIUM:500000,
 
+
     HIGH:3000000,
+
 
 
     BANK:{
 
 
-    "BCA":{
-        color:"#0D47A1",
-        bg:"#E3F2FD"
-    },
+        "BCA":{
+            color:"#0D47A1",
+            bg:"#E3F2FD"
+        },
 
 
-    "DANA":{
-        color:"#01579B",
-        bg:"#E1F5FE"
-    },
+        "DANA":{
+            color:"#01579B",
+            bg:"#E1F5FE"
+        },
 
 
-    "SEABANK":{
-        color:"#E65100",
-        bg:"#FFF3E0"
-    },
+        "SEABANK":{
+            color:"#E65100",
+            bg:"#FFF3E0"
+        },
 
 
-    "SEA BANK":{
-        color:"#E65100",
-        bg:"#FFF3E0"
-    },
+        "SEA BANK":{
+            color:"#E65100",
+            bg:"#FFF3E0"
+        },
 
 
-    "BNI":{
-        color:"#EF6C00",
-        bg:"#FFF3E0"
-    },
+        "BNI":{
+            color:"#EF6C00",
+            bg:"#FFF3E0"
+        },
 
 
-    "BRI":{
-        color:"#1B5E20",
-        bg:"#E8F5E9"
-    },
+        "BRI":{
+            color:"#1B5E20",
+            bg:"#E8F5E9"
+        },
 
 
-    "MANDIRI":{
-        color:"#0D47A1",
-        bg:"#E3F2FD"
-    },
+        "MANDIRI":{
+            color:"#0D47A1",
+            bg:"#E3F2FD"
+        },
 
 
-    "OVO":{
-        color:"#4A148C",
-        bg:"#F3E5F5"
-    },
+        "OVO":{
+            color:"#4A148C",
+            bg:"#F3E5F5"
+        },
 
 
-    "GOPAY":{
-        color:"#1B5E20",
-        bg:"#E8F5E9"
-    },
+        "GOPAY":{
+            color:"#1B5E20",
+            bg:"#E8F5E9"
+        },
 
 
-    "GO PAY":{
-        color:"#1B5E20",
-        bg:"#E8F5E9"
-    },
+        "GO PAY":{
+            color:"#1B5E20",
+            bg:"#E8F5E9"
+        },
 
 
-    "LINKAJA":{
-        color:"#880E4F",
-        bg:"#FCE4EC"
-    },
+        "LINKAJA":{
+            color:"#880E4F",
+            bg:"#FCE4EC"
+        },
 
 
-    "LINK AJA":{
-        color:"#880E4F",
-        bg:"#FCE4EC"
+        "LINK AJA":{
+            color:"#880E4F",
+            bg:"#FCE4EC"
+        }
+
+
     }
-
-
-}
 
 
 };
@@ -111,10 +113,8 @@ const CONFIG = {
 
 
 
-
-
 /* =====================================
-   STYLE
+   STYLE PREMIUM
 ===================================== */
 
 
@@ -123,24 +123,40 @@ const style=document.createElement("style");
 
 style.textContent=`
 
-/* ROW */
+
+/* =====================================
+ REMOVE HORIZONTAL SCROLL
+===================================== */
+
+
+html,
+body{
+
+    overflow-x:hidden!important;
+
+}
+
+
+
+
+
+/* =====================================
+ ROW FLAT STYLE
+===================================== */
 
 
 .ft-row{
 
-    transition:
-    all .25s ease!important;
+    transition:none!important;
 
 }
 
 
 .ft-row:hover{
 
-    transform:
-    translateX(3px);
+    transform:none!important;
 
-    box-shadow:
-    0 6px 18px rgba(0,0,0,.12);
+    box-shadow:none!important;
 
 }
 
@@ -148,7 +164,9 @@ style.textContent=`
 
 
 
-/* LEFT INDICATOR */
+/* =====================================
+ NOMINAL MEDIUM
+===================================== */
 
 
 .ft-medium{
@@ -164,12 +182,19 @@ style.textContent=`
 
 
     border-left:
+
     5px solid #FFC107!important;
+
 
 }
 
 
 
+
+
+/* =====================================
+ NOMINAL HIGH
+===================================== */
 
 
 .ft-high{
@@ -185,86 +210,46 @@ style.textContent=`
 
 
     border-left:
+
     5px solid #E53935!important;
 
-}
-
-
-
-
-
-/* BANK COMPACT */
-
-
-.ft-bank{
-
-
-    font-size:
-    13px!important;
-
-
-    font-weight:
-    1000!important;
-
-
-    letter-spacing:
-    .4px;
-
-
-    padding:
-    2px 8px!important;
-
-
-    border-radius:
-    6px!important;
-
-
-    display:
-    inline-block!important;
-
-
-    border:
-    1px solid currentColor!important;
-
-
-    line-height:
-    15px!important;
-
 
 }
 
 
 
 
-
-/* NOMINAL */
 
 
 .ft-money{
 
 
     font-size:
+
     14px!important;
 
 
     font-weight:
+
     900!important;
 
 
     padding:
+
     5px 12px!important;
 
 
     border-radius:
+
     8px!important;
 
 
     display:
+
     inline-block!important;
 
 
 }
-
 
 
 
@@ -272,9 +257,7 @@ style.textContent=`
 .ft-medium .ft-money{
 
 
-    background:
-    #FFD600!important;
-
+    background:#FFD600!important;
 
     color:#111!important;
 
@@ -307,11 +290,11 @@ style.textContent=`
 
 
     animation:
+
     ftPulse 2s infinite;
 
 
 }
-
 
 
 
@@ -349,84 +332,201 @@ box-shadow:
 
 
 
-/* LAPOR GRUP */
+/* =====================================
+ BANK + NOMOR BLOCK
+===================================== */
+
+
+.ft-bank-box{
+
+
+    display:inline-block!important;
+
+
+    padding:
+
+    4px 9px!important;
+
+
+    border-radius:
+
+    7px!important;
+
+
+    border:
+
+    1px solid #cbd5e1!important;
+
+
+    font-size:
+
+    13px!important;
+
+
+    font-weight:
+
+    1000!important;
+
+
+    line-height:
+
+    16px!important;
+
+
+    white-space:nowrap!important;
+
+
+    box-shadow:
+
+    0 1px 5px rgba(0,0,0,.08);
+
+
+    border:
+
+    1px solid #cbd5e1!important;
+
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #ffffff,
+    #f1f5f9
+    )!important;
+
+
+
+    line-height:
+
+    16px!important;
+
+
+
+    box-shadow:
+
+    0 2px 8px rgba(0,0,0,.08);
+
+
+}
+
+
+
+.bank-name{
+
+
+    font-size:
+
+    13px!important;
+
+
+    font-weight:
+
+    1000!important;
+
+
+}
+
+
+
+.bank-number{
+
+
+    font-size:
+
+    11px!important;
+
+
+    opacity:.85;
+
+
+}
+
+
+
+
+
+
+/* =====================================
+ REPORT BUTTON
+===================================== */
 
 
 .ft-report-note{
 
+
     display:inline-flex!important;
+
 
     align-items:center;
 
+
     justify-content:center;
 
-    min-width:120px;
 
-    padding:4px 10px;
+    min-width:auto!important;
 
-    border-radius:30px;
 
-    font-size:11px!important;
+    padding:2px 7px;
+
+
+    border-radius:20px;
+
+
+    font-size:10px!important;
+
 
     font-weight:900;
 
-    letter-spacing:.4px;
 
-    margin-bottom:4px;
+    line-height:
 
-    transition:.25s;
+    14px!important;
 
-    user-select:none;
+
+
+    margin-right:
+
+    5px!important;
 
 }
+
+
+
+
 
 .ft-report-warning{
 
+
     color:#E65100!important;
 
-    background:linear-gradient(135deg,#FFF8E1,#FFE082);
+
+    background:#FFF8E1;
+
 
     border:1px solid #FFB300;
 
-    cursor:pointer;
 
 }
 
-.ft-report-warning:hover{
 
-    transform:translateY(-1px);
 
-    box-shadow:0 0 10px rgba(255,193,7,.5);
 
-}
 
 .ft-report-success{
 
-    color:#fff!important;
 
-    background:linear-gradient(135deg,#00C853,#2E7D32);
+    color:white!important;
 
-    border:1px solid #66BB6A;
 
-    box-shadow:0 0 12px rgba(0,200,83,.35);
+    background:
 
-    animation:reportGlow 2s infinite;
+    linear-gradient(
+    135deg,
+    #00C853,
+    #2E7D32
+    );
 
-}
-
-@keyframes reportGlow{
-
-0%{
-box-shadow:0 0 5px rgba(0,200,83,.3);
-}
-
-50%{
-box-shadow:0 0 16px rgba(0,200,83,.6);
-}
-
-100%{
-box-shadow:0 0 5px rgba(0,200,83,.3);
-}
 
 }
 
@@ -434,7 +534,10 @@ box-shadow:0 0 5px rgba(0,200,83,.3);
 
 
 
-/* HUB CS */
+
+/* =====================================
+ CS ALERT
+===================================== */
 
 
 .ft-cs-alert{
@@ -446,28 +549,93 @@ box-shadow:0 0 5px rgba(0,200,83,.3);
     background:#ffebee!important;
 
 
-    padding:
-
-    2px 7px!important;
+    padding:2px 7px!important;
 
 
-    border-radius:
-
-    6px!important;
+    border-radius:6px!important;
 
 
-    font-weight:
-
-    900!important;
+    font-weight:900!important;
 
 
-    border:
-
-    1px solid #ef9a9a!important;
+    border:1px solid #ef9a9a!important;
 
 
 }
 
+
+
+
+
+/* =====================================
+ PGA CALLBACK FAILED
+===================================== */
+
+
+.ft-callback-failed{
+
+
+    color:white!important;
+
+
+    background:
+
+    linear-gradient(
+    135deg,
+    #ff1744,
+    #b71c1c
+    )!important;
+
+
+    border-radius:6px!important;
+
+
+    padding:4px 10px!important;
+
+
+    font-weight:1000!important;
+
+
+    display:inline-block!important;
+
+
+    animation:
+
+    callbackPulse 2s infinite;
+
+
+}
+
+
+
+@keyframes callbackPulse{
+
+
+0%{
+
+box-shadow:
+0 0 5px rgba(244,67,54,.5);
+
+}
+
+
+50%{
+
+box-shadow:
+0 0 20px rgba(244,67,54,.9);
+
+}
+
+
+100%{
+
+box-shadow:
+0 0 5px rgba(244,67,54,.5);
+
+}
+
+
+}
 
 
 `;
@@ -482,9 +650,8 @@ document.head.appendChild(style);
 
 
 
-
 /* =====================================
-   CHECK HUB CS
+ CHECK HUB CS
 ===================================== */
 
 
@@ -512,13 +679,11 @@ function checkCSName(element){
 
 
 
-    if(
-        keyword.some(word=>text.includes(word))
-    ){
+    if(keyword.some(word=>text.includes(word))){
 
 
         element.classList.add(
-            "ft-cs-alert"
+        "ft-cs-alert"
         );
 
 
@@ -531,10 +696,29 @@ function checkCSName(element){
 
 
 
+/* =====================================
+ CHECK CALLBACK FAILED
+===================================== */
 
 
+function checkCallbackFailed(element){
 
+    if(!element)
+        return;
 
+    let text = element.innerText.toUpperCase();
+
+    if(
+        text.includes("FAILED")
+    ){
+
+        element.classList.add(
+            "ft-callback-failed"
+        );
+
+    }
+
+}
 /* =====================================
    PROCESS ROW
 ===================================== */
@@ -548,7 +732,7 @@ function processRow(row){
 
 
 
-    const cells=
+    const cells =
     row.querySelectorAll("td");
 
 
@@ -561,6 +745,7 @@ function processRow(row){
     row.dataset.financeTerminal="true";
 
 
+
     row.classList.add(
         "ft-row"
     );
@@ -568,14 +753,20 @@ function processRow(row){
 
 
 
+
     /*
-        CHECK HUB CS
+        CHECK TEXT STATUS
     */
 
 
     cells.forEach(cell=>{
 
+
         checkCSName(cell);
+
+
+        checkCallbackFailed(cell);
+
 
     });
 
@@ -585,76 +776,111 @@ function processRow(row){
 
 
 
+
     /*
-        BANK
+        BANK + NOMOR REKENING
     */
 
-
-    const bankElement =
-    cells[6]
-    .querySelector("span");
+const bankCell = cells[6];
 
 
+if(bankCell){
 
-    if(bankElement){
 
-
-        let name =
-
-        bankElement.textContent
-        .trim()
-        .toUpperCase();
+    let text =
+    bankCell.innerText
+    .replace(/\s+/g," ")
+    .trim();
 
 
 
-        if(name==="SEA BANK")
-        name="SEABANK";
-
-
-        if(name==="GO PAY")
-        name="GOPAY";
-
-
-        if(name==="LINK AJA")
-        name="LINKAJA";
+    let name =
+    text.split(",")[0]
+    .trim()
+    .toUpperCase();
 
 
 
+    if(name==="SEA BANK")
+    name="SEABANK";
 
 
-        const bankData =
-        CONFIG.BANK[name];
+    if(name==="GO PAY")
+    name="GOPAY";
 
 
-
-        if(bankData){
-
-
-            bankElement.classList.add(
-                "ft-bank"
-            );
+    if(name==="LINK AJA")
+    name="LINKAJA";
 
 
 
-            bankElement.innerHTML =
-            name;
+
+    const bankData =
+    CONFIG.BANK[name];
 
 
 
-            bankElement.style.background =
-            bankData.bg;
+    // ambil nomor rekening
+    let number =
+    text
+    .replace(
+        /BCA|BRI|BNI|BPD|JAGO|DANA|OVO|GOPAY|GO PAY|SEABANK|SEA BANK|MANDIRI|LINKAJA|LINK AJA/gi,
+        ""
+    )
+    .replace(/,/g,"")
+    .trim();
 
 
 
-            bankElement.style.color =
-            bankData.color;
+
+
+    let finalText =
+    name + ", " + number;
 
 
 
-        }
+
+    // kosongkan seluruh isi kolom
+
+    bankCell.innerHTML = "";
+
+
+
+    const box =
+    document.createElement("span");
+
+
+    box.className =
+    "ft-bank-box";
+
+
+
+    box.innerText =
+    finalText;
+
+
+
+    if(bankData){
+
+
+        box.style.color =
+        bankData.color;
+
+
+        box.style.background =
+        bankData.bg;
 
 
     }
+
+
+
+
+    bankCell.appendChild(box);
+
+
+
+}
 
 
 
@@ -680,6 +906,7 @@ function processRow(row){
 
 
 
+
     let value =
 
     money.textContent
@@ -687,7 +914,10 @@ function processRow(row){
 
 
 
-    value=parseInt(value||0);
+    value =
+    parseInt(value || 0);
+
+
 
 
 
@@ -701,6 +931,13 @@ function processRow(row){
 
 
 
+
+    /*
+        HIGH PRIORITY
+        >= 3.000.000
+    */
+
+
     if(value >= CONFIG.HIGH){
 
 
@@ -711,60 +948,133 @@ function processRow(row){
 
 
 
-// =========================
-// ID TRANSAKSI
-// =========================
 
-// Silakan sesuaikan jika ada kolom ID transaksi
-const transactionId = (
-    cells[0].innerText.trim() + "|" +
-    cells[2].innerText.trim() + "|" +
-    cells[7].innerText.trim()
-);
-
-const storageKey = "FT_REPORT_" + transactionId;
+        /*
+            LAPOR GRUP BUTTON
+        */
 
 
-// =========================
-// NOTE
-// =========================
 
-const note = document.createElement("div");
+        const transactionId = (
 
-note.className = "ft-report-note";
 
-if(localStorage.getItem(storageKey)){
+            cells[0].innerText.trim()
+            +"|"+
+            cells[2].innerText.trim()
+            +"|"+
+            cells[7].innerText.trim()
 
-    note.innerHTML = "✔ SUDAH LAPOR";
 
-    note.classList.add("ft-report-success");
+        );
 
-}else{
 
-    note.innerHTML = "⚠ LAPOR GRUP";
 
-    note.classList.add("ft-report-warning");
+        const storageKey =
+        "FT_REPORT_"+transactionId;
 
-    note.onclick = function(){
 
-        localStorage.setItem(storageKey,"YES");
 
-        note.innerHTML = "✔ SUDAH LAPOR";
 
-        note.classList.remove("ft-report-warning");
+        const note =
+        document.createElement("div");
 
-        note.classList.add("ft-report-success");
 
-    };
 
-}
+        note.className =
+        "ft-report-note";
 
-money.parentElement.insertBefore(note,money);
+
+
+
+
+        if(localStorage.getItem(storageKey)){
+
+
+
+            note.innerHTML =
+            "✔ SUDAH LAPOR";
+
+
+
+            note.classList.add(
+            "ft-report-success"
+            );
+
+
+
+        }else{
+
+
+
+            note.innerHTML =
+            "⚠ LAPOR GRUP";
+
+
+
+            note.classList.add(
+            "ft-report-warning"
+            );
+
+
+
+
+            note.onclick=function(){
+
+
+
+                localStorage.setItem(
+                    storageKey,
+                    "YES"
+                );
+
+
+
+                note.innerHTML =
+                "✔ SUDAH LAPOR";
+
+
+
+                note.classList.remove(
+                "ft-report-warning"
+                );
+
+
+
+                note.classList.add(
+                "ft-report-success"
+                );
+
+
+
+            };
+
+
+
+        }
+
+
+
+
+
+        money.parentElement.insertBefore(
+            note,
+            money
+        );
+
 
 
 
     }
 
+
+
+
+
+
+    /*
+        MEDIUM PRIORITY
+        >=500.000
+    */
 
 
     else if(value >= CONFIG.MEDIUM){
@@ -791,7 +1101,7 @@ money.parentElement.insertBefore(note,money);
 
 
 /* =====================================
-   SMART OBSERVER
+ SMART OBSERVER
 ===================================== */
 
 
@@ -802,6 +1112,7 @@ let timer;
 function scan(){
 
 
+
     clearTimeout(timer);
 
 
@@ -809,9 +1120,14 @@ function scan(){
     timer=setTimeout(()=>{
 
 
+
         document
-        .querySelectorAll("tbody tr")
-        .forEach(processRow);
+        .querySelectorAll(
+        "tbody tr"
+        )
+        .forEach(
+        processRow
+        );
 
 
 
@@ -823,25 +1139,49 @@ function scan(){
 
 
 
+
+
+
+/*
+ INITIAL LOAD
+*/
+
+
 scan();
 
+
+
+
+
+/*
+ AUTO DETECT DATA CHANGE
+*/
 
 
 new MutationObserver(scan)
 
 .observe(
 
+
     document.body,
+
 
     {
 
+
         childList:true,
+
 
         subtree:true
 
+
     }
 
+
 );
+
+
+
 
 
 
