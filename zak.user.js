@@ -2,7 +2,7 @@
 // @name         HUJANMOTIONV2
 // @namespace    https://tampermonkey.net/
 // @version      2.0
-// @description  TETAP TENANG.
+// @description  TETAP TENANG
 // @match        https://motionv2.com/*
 // @grant        none
 // ==/UserScript==
