@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         HUJANMOTIONV2
 // @namespace    https://tampermonkey.net/
-// @version      2.1
-// @description  TETAP TENANG
+// @version      2.2
+// @description  MADEIN1305
 // @match        https://motionv2.com/*
 // @grant        none
 // ==/UserScript==
@@ -137,7 +137,65 @@ body{
 }
 
 
+.ft-copy-report{
 
+
+display:inline-flex!important;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+
+padding:3px 9px;
+
+
+margin-right:5px;
+
+
+border-radius:20px;
+
+
+font-size:10px!important;
+
+
+font-weight:1000;
+
+
+cursor:pointer;
+
+
+color:white!important;
+
+
+background:
+
+linear-gradient(
+135deg,
+#1565C0,
+#0D47A1
+);
+
+
+box-shadow:
+
+0 2px 6px rgba(0,0,0,.2);
+
+
+
+}
+
+
+
+.ft-copy-report:hover{
+
+
+transform:scale(1.05);
+
+
+}
 
 
 /* =====================================
@@ -945,131 +1003,148 @@ if(bankCell){
         row.classList.add(
             "ft-high"
         );
-
-
-
-
         /*
-            LAPOR GRUP BUTTON
-        */
+    COPY CLIPBOARD BUTTON
+*/
 
 
+const copyBtn =
+document.createElement("div");
 
-        const transactionId = (
 
+copyBtn.className =
+"ft-copy-report";
 
-            cells[0].innerText.trim()
-            +"|"+
-            cells[2].innerText.trim()
-            +"|"+
-            cells[7].innerText.trim()
 
+copyBtn.innerHTML =
+"📋 COPY";
 
-        );
 
 
+copyBtn.onclick=function(){
 
-        const storageKey =
-        "FT_REPORT_"+transactionId;
 
+const id =
+cells[4].innerText.trim();
 
 
 
-        const note =
-        document.createElement("div");
+const bank =
+cells[6]
+.innerText
+.split(",")[0]
+.trim();
 
 
 
-        note.className =
-        "ft-report-note";
+const dateRaw =
+cells[3]
+.innerText
+.replace(/\s+/g," ")
+.trim();
 
 
 
+const parts =
+dateRaw.match(
+/(\d{2})\/(\d{2})\/(\d{4}).*?(\d+):(\d+):(\d+)\s*(AM|PM)?/
+);
 
 
-        if(localStorage.getItem(storageKey)){
 
+let tanggal="";
 
 
-            note.innerHTML =
-            "✔ SUDAH LAPOR";
 
+if(parts){
 
 
-            note.classList.add(
-            "ft-report-success"
-            );
+let day = parts[1];
 
+let month = parts[2];
 
+let year = parts[3];
 
-        }else{
+let hour = parseInt(parts[4]);
 
+let minute = parts[5];
 
+let second = parts[6];
 
-            note.innerHTML =
-            "⚠ LAPOR GRUP";
+let ampm = parts[7];
 
 
 
-            note.classList.add(
-            "ft-report-warning"
-            );
+if(ampm==="PM" && hour !== 12){
+    hour += 12;
+}
 
 
+if(ampm==="AM" && hour === 12){
+    hour = 0;
+}
 
 
-            note.onclick=function(){
 
+tanggal =
 
+year+"-"+month+"-"+day+" "+
+String(hour).padStart(2,"0")+":"+
+minute+":"+second;
 
-                localStorage.setItem(
-                    storageKey,
-                    "YES"
-                );
 
+}else{
 
 
-                note.innerHTML =
-                "✔ SUDAH LAPOR";
+tanggal="DATE ERROR";
 
 
+}
 
-                note.classList.remove(
-                "ft-report-warning"
-                );
 
 
 
-                note.classList.add(
-                "ft-report-success"
-                );
+const report =
+`💸WITHDRAW BIG AMOUNT
+${bank}
+${id}
+Withdraw
+${tanggal}
+Rp ${value.toLocaleString("en-US")}`;
 
 
 
-            };
 
+navigator.clipboard.writeText(report);
 
 
-        }
 
+copyBtn.innerHTML =
+"✔ DONE";
 
 
 
+setTimeout(()=>{
 
-        money.parentElement.insertBefore(
-            note,
-            money
-        );
 
+copyBtn.innerHTML =
+"📋 COPY";
 
 
+},1200);
+
+
+
+};
+
+
+
+money.parentElement.insertBefore(
+copyBtn,
+money
+);
 
     }
-
-
-
-
-
 
     /*
         MEDIUM PRIORITY
