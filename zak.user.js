@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         HUJANMOTIONV2
 // @namespace    https://tampermonkey.net/
-// @version      2.2
+// @version      2.3
 // @description  MADEIN1305
 // @match        https://motionv2.com/*
 // @grant        none
@@ -1037,72 +1037,275 @@ cells[6]
 
 
 
-const dateRaw =
-cells[3]
-.innerText
-.replace(/\s+/g," ")
-.trim();
+
+        /*
+         * ROBUST DATE/TIME DETECTOR
+         * Tidak bergantung lagi pada cells[3].
+         * Target lama:
+         * <p>14/08/2026</p>
+         * <p class="whitespace-nowrap">1:01:03 PM</p>
+         */
+
+        function parseMotionDateTime(row){
+
+            if(!row)
+                return null;
+
+            const cells =
+                Array.from(row.querySelectorAll("td"));
+
+            let dateText = "";
+            let timeText = "";
+
+            /*
+             * Cari tanggal + waktu dari SEMUA TD.
+             * Jadi kalau posisi kolom berubah, tetap terbaca.
+             */
+            for(const cell of cells){
+
+                const nodes = [
+                    ...cell.querySelectorAll(
+                        "p,span,time,div,small,strong"
+                    ),
+                    cell
+                ];
+
+                for(const node of nodes){
+
+                    const text =
+                        (node.textContent || "")
+                        .replace(/\u00A0/g," ")
+                        .replace(/\s+/g," ")
+                        .trim();
+
+                    if(!text)
+                        continue;
+
+                    if(!dateText){
+
+                        const dm =
+                            text.match(
+                                /\b(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})\b/
+                            );
+
+                        if(dm)
+                            dateText = dm[0];
+                    }
+
+                    if(!timeText){
+
+                        const tm =
+                            text.match(
+                                /\b(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?\b/i
+                            );
+
+                        if(tm)
+                            timeText = tm[0];
+                    }
+
+                    if(dateText && timeText)
+                        break;
+                }
+
+                if(dateText && timeText)
+                    break;
+            }
+
+            if(!dateText)
+                return null;
+
+            const dm =
+                dateText.match(
+                    /^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/
+                );
+
+            if(!dm)
+                return null;
+
+            const day   = parseInt(dm[1],10);
+            const month = parseInt(dm[2],10);
+            const year  = parseInt(dm[3],10);
+
+            const test =
+                new Date(year,month-1,day);
+
+            if(
+                test.getFullYear() !== year ||
+                test.getMonth() !== month-1 ||
+                test.getDate() !== day
+            )
+                return null;
+
+            let hour = 0;
+            let minute = 0;
+            let second = 0;
+
+            if(timeText){
+
+                const tm =
+                    timeText.match(
+                        /^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?$/i
+                    );
+
+                if(tm){
+
+                    hour =
+                        parseInt(tm[1],10);
+
+                    minute =
+                        parseInt(tm[2],10);
+
+                    second =
+                        parseInt(tm[3] || "0",10);
+
+                    const ampm =
+                        (tm[4] || "").toUpperCase();
+
+                    if(
+                        ampm === "PM" &&
+                        hour !== 12
+                    )
+                        hour += 12;
+
+                    if(
+                        ampm === "AM" &&
+                        hour === 12
+                    )
+                        hour = 0;
+
+                    if(
+                        hour > 23 ||
+                        minute > 59 ||
+                        second > 59
+                    )
+                        return null;
+                }
+            }
+
+            return (
+                String(year).padStart(4,"0") + "-" +
+                String(month).padStart(2,"0") + "-" +
+                String(day).padStart(2,"0") + " " +
+                String(hour).padStart(2,"0") + ":" +
+                String(minute).padStart(2,"0") + ":" +
+                String(second).padStart(2,"0")
+            );
+        }
 
 
+        /*
+         * Ambil row terbaru saat COPY ditekan.
+         * Jangan menggunakan cells[3] lagi.
+         */
+        const currentRow =
+            copyBtn.closest("tr");
 
-const parts =
-dateRaw.match(
-/(\d{2})\/(\d{2})\/(\d{4}).*?(\d+):(\d+):(\d+)\s*(AM|PM)?/
-);
-
-
-
-let tanggal="";
-
-
-
-if(parts){
+        let tanggal =
+            parseMotionDateTime(currentRow);
 
 
-let day = parts[1];
+        /*
+         * Fallback terakhir:
+         * ambil tanggal dan waktu dari seluruh teks row.
+         */
+        if(!tanggal){
 
-let month = parts[2];
+            const rowText =
+                (
+                    currentRow?.innerText ||
+                    currentRow?.textContent ||
+                    ""
+                )
+                .replace(/\u00A0/g," ")
+                .replace(/\s+/g," ")
+                .trim();
 
-let year = parts[3];
+            const dateMatch =
+                rowText.match(
+                    /\b\d{1,2}[\/.-]\d{1,2}[\/.-]\d{4}\b/
+                );
 
-let hour = parseInt(parts[4]);
+            const timeMatch =
+                rowText.match(
+                    /\b\d{1,2}:\d{2}(?::\d{2})?\s*(?:AM|PM)?\b/i
+                );
 
-let minute = parts[5];
+            if(dateMatch){
 
-let second = parts[6];
+                let d =
+                    dateMatch[0]
+                    .match(
+                        /^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})$/
+                    );
 
-let ampm = parts[7];
+                if(d){
+
+                    const day =
+                        parseInt(d[1],10);
+
+                    const month =
+                        parseInt(d[2],10);
+
+                    const year =
+                        parseInt(d[3],10);
+
+                    let hour = 0;
+                    let minute = 0;
+                    let second = 0;
+
+                    if(timeMatch){
+
+                        const tm =
+                            timeMatch[0].match(
+                                /^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)?$/i
+                            );
+
+                        if(tm){
+
+                            hour =
+                                parseInt(tm[1],10);
+
+                            minute =
+                                parseInt(tm[2],10);
+
+                            second =
+                                parseInt(tm[3] || "0",10);
+
+                            const ampm =
+                                (tm[4] || "").toUpperCase();
+
+                            if(
+                                ampm === "PM" &&
+                                hour !== 12
+                            )
+                                hour += 12;
+
+                            if(
+                                ampm === "AM" &&
+                                hour === 12
+                            )
+                                hour = 0;
+                        }
+                    }
+
+                    tanggal =
+                        year + "-" +
+                        String(month).padStart(2,"0") + "-" +
+                        String(day).padStart(2,"0") + " " +
+                        String(hour).padStart(2,"0") + ":" +
+                        String(minute).padStart(2,"0") + ":" +
+                        String(second).padStart(2,"0");
+                }
+            }
+        }
 
 
-
-if(ampm==="PM" && hour !== 12){
-    hour += 12;
-}
-
-
-if(ampm==="AM" && hour === 12){
-    hour = 0;
-}
-
-
-
-tanggal =
-
-year+"-"+month+"-"+day+" "+
-String(hour).padStart(2,"0")+":"+
-minute+":"+second;
-
-
-}else{
-
-
-tanggal="DATE ERROR";
-
-
-}
-
-
-
+        /*
+         * Tidak lagi memakai DATE ERROR.
+         * Kalau benar-benar belum tersedia, gunakan DATE NOT FOUND.
+         */
+        if(!tanggal)
+            tanggal = "DATE NOT FOUND";
 
 const report =
 `💸WITHDRAW BIG AMOUNT
